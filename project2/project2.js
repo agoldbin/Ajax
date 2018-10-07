@@ -68,12 +68,14 @@ function postalCodeSearch(zip) {
     //     console.log(city);
     // }
     fetch(url)
-    .then(data => {return data.json()})
-    .then(res => {
-        send = cityWeather(res);
-        console.log(send);
-        return send;
-    })
+    .then(data=>{return data.json()})
+    .then(res=>{cityWeather(res)})
+    // .then(res => {
+    //     send = cityLocation(res);
+    //     console.log(send);
+    //     return send;
+    // })
+
     // .then(res=>{return res})
 }
 
