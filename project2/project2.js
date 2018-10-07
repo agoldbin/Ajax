@@ -3,43 +3,41 @@
  * @return {[type]} [description]
  */
 function weather() {
-    var zip;
-    var result;
+    var zip = document.getElementById("zip").value;
+    // var result;
+    console.log(zip);
     var cityInfo;
 
-    zip = validateZIP();
+    validateZIP(zip);
     postalCodeSearch(zip);
-    // console.log(result);
-    // cityInfo = cityWeather(result);
+    // cityInfo = postalCodeSearch(zip);
+    // currentWeather = cityLocation(cityInfo);
 }
 
 /**
  * [validateZIP description]
  * @return {[type]} [description]
  */
-function validateZIP() {
-    var zip = document.getElementById("zip").value;
+function validateZIP(zip) {
     console.log(zip);
     // zip = valueOf(zip);
 
     // var zipRegex = /\d{5}/
-    // var zipRegex = /\b\d{5}\b/
+    var zipRegex = /\b\d{5}\b/
     // console.log(zipRegex);
 
     removeErr();
-    // if (zip.match(zipRegex)) {
-    //     // document.getElementByTag("body").appendChild
-    //
-    //     var node = document.createElement("h3");
-    //     var errNode = document.createTextNode("Please enter a valid ZIP code (5 digits)");
-    //     node.appendChild(errNode);
-    //     document.getElementsByTagName("body")[0].appendChild(node).setAttribute('id', 'errMsg');
-    //     return false;
-    // } else {
-    //     console.log(zip);
-    //     return;
-    // }
-    return zip
+    if (zip.match(zipRegex)) {
+        return true;
+    } else {
+        document.getElementById("main").appendChild
+
+        var node = document.createElement("h3");
+        var errNode = document.createTextNode("Please enter a valid ZIP code (5 digits)");
+        node.appendChild(errNode);
+        document.getElementById("main").appendChild(node).setAttribute('id', 'errMsg');
+        return false;
+    }
 }
 
 /**
@@ -59,6 +57,7 @@ function removeErr() {
 function postalCodeSearch(zip) {
     console.log("zip search: " + zip);
     var url = "http://api.geonames.org/postalCodeLookupJSON?postalcode="+ zip + "&country=US&username=agoldbin"
+    var send;
     // var request = new XMLHttpRequest();
     // request.open('GET', url);
     // request.responseType = 'json';
@@ -69,22 +68,23 @@ function postalCodeSearch(zip) {
     // }
     fetch(url)
     .then(data=>{return data.json()})
-    .then(res=>{cityWeather(res)})
+    // .then(res=>{cityLocation(res)})
     // .then(res => {
     //     send = cityLocation(res);
     //     console.log(send);
     //     return send;
+    .then(res=>{return res;})
     // })
-
+console.log("work!: ", send);
     // .then(res=>{return res})
 }
 
 /**
- * [cityWeather description]
+ * [cityLocation description]
  * @param  {[type]} result [description]
  * @return {[type]}        [description]
  */
-function cityWeather(result) {
+function cityLocation(result) {
     // console.log("weather");
     // console.log(result);
 
@@ -98,6 +98,7 @@ function cityWeather(result) {
     console.log("1");
     console.log(city.lng);
 
+    // cityInfo = [cityName];
     return [cityName, cityLat, cityLong]
 
     // console.log(location.postalcode.placeName);
@@ -107,9 +108,33 @@ function cityWeather(result) {
 }
 
 /**
+ * [weatherRequest description]
+ * @return {[type]} [description]
+ */
+function weatherRequest() {
+
+}
+
+/**
  * [weatherIcon description]
  * @return {[type]} [description]
  */
 function weatherIcon() {
+
+}
+
+/**
+ * [prettyUpPage description]
+ * @return {[type]} [description]
+ */
+function prettyUpPage() {
+
+}
+
+/**
+ * [convertTemp description]
+ * @return {[type]} [description]
+ */
+function convertTemp() {
 
 }
