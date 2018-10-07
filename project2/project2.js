@@ -1,15 +1,21 @@
+/**
+ * [weather description]
+ * @return {[type]} [description]
+ */
 function weather() {
     var zip;
     var result;
+    var cityInfo;
 
     zip = validateZIP();
-    result = postalCodeSearch(zip);
-
+    postalCodeSearch(zip);
+    // console.log(result);
+    // cityInfo = cityWeather(result);
 }
 
-/* This function will validate the zip code to ensure it is 5 digits long, and only digits
- *
- *
+/**
+ * [validateZIP description]
+ * @return {[type]} [description]
  */
 function validateZIP() {
     var zip = document.getElementById("zip").value;
@@ -36,7 +42,7 @@ function validateZIP() {
     return zip
 }
 
-/*
+/**
  * This function will remove old error messages so that only 1 shows up at any given time
  */
 function removeErr() {
@@ -45,6 +51,11 @@ function removeErr() {
     }
 }
 
+/**
+ * [postalCodeSearch description]
+ * @param  {[type]} zip [description]
+ * @return {[type]}     [description]
+ */
 function postalCodeSearch(zip) {
     console.log("zip search: " + zip);
     var url = "http://api.geonames.org/postalCodeLookupJSON?postalcode="+ zip + "&country=US&username=agoldbin"
@@ -57,11 +68,20 @@ function postalCodeSearch(zip) {
     //     console.log(city);
     // }
     fetch(url)
-    .then(data=>{return data.json()})
-    .then(res=>{cityWeather(res)})
+    .then(data => {return data.json()})
+    .then(res => {
+        send = cityWeather(res);
+        console.log(send);
+        return send;
+    })
     // .then(res=>{return res})
 }
 
+/**
+ * [cityWeather description]
+ * @param  {[type]} result [description]
+ * @return {[type]}        [description]
+ */
 function cityWeather(result) {
     // console.log("weather");
     // console.log(result);
@@ -76,12 +96,18 @@ function cityWeather(result) {
     console.log("1");
     console.log(city.lng);
 
+    return [cityName, cityLat, cityLong]
+
     // console.log(location.postalcode.placeName);
     // console.log(result.postalcodes.lng[0]);
     // console.log(result.postalcodes.lat[0]);
 
 }
 
+/**
+ * [weatherIcon description]
+ * @return {[type]} [description]
+ */
 function weatherIcon() {
 
 }
