@@ -1,11 +1,11 @@
+var cityName;
+
 /**
  * [weather description]
  * @return {[type]} [description]
  */
 function weather() {
     var zip = document.getElementById("zip").value;
-    var cityInfo;
-
     validateZIP(zip);
     postalCodeSearch(zip);
 }
@@ -15,19 +15,12 @@ function weather() {
  * @return {[type]} [description]
  */
 function validateZIP(zip) {
-    console.log(zip);
-    // zip = valueOf(zip);
-
-    // var zipRegex = /\d{5}/
-    var zipRegex = /\b\d{5}\b/
-    // console.log(zipRegex);
+    var zipRegex = /\b\d{5}\b/;
 
     removeErr();
     if (zip.match(zipRegex)) {
         return true;
     } else {
-        document.getElementById("main").appendChild
-
         var node = document.createElement("h3");
         var errNode = document.createTextNode("Please enter a valid ZIP code (5 digits)");
         node.appendChild(errNode);
@@ -43,6 +36,8 @@ function removeErr() {
     if (document.body.contains(document.getElementById("errMsg"))) {
         document.getElementById("errMsg").remove();
     }
+    // TODO add function to remove weather info
+    // document.getElementById("errMsg").remove();
 }
 
 /**
@@ -55,12 +50,6 @@ function postalCodeSearch(zip) {
     var url = "http://api.geonames.org/postalCodeLookupJSON?postalcode="
             + zip
             + "&country=US&username=agoldbin";
-    // var send;
-
-    // TODO return json from site to main func
-    // var req = new XMLHttpRequest();
-    // req.open("GET", url);
-    // req.send();
     fetch(url)
             .then(data=>{return data.json()})
             .then(res=>{cityLocation(res)});
@@ -73,16 +62,11 @@ function postalCodeSearch(zip) {
  */
 function cityLocation(cityReq) {
     var city = cityReq.postalcodes[0].valueOf();
-    var cityName = city.placeName;
     var cityLat  = city.lat;
     var cityLong = city.lng;
-    console.log(city);
-    console.log(city.lng, city.lat);
+    cityName = city.placeName;
 
-    // return [cityName, cityLat, cityLong];
     cityInfo = [cityName, cityLat, cityLong];
-
-// TODO return city info
     weatherRequest(cityInfo);
 }
 
@@ -96,11 +80,9 @@ function weatherRequest() {
             + "&lng="
             + cityInfo[2]
             + "&username=agoldbin";
-
-    // TODO return json from site to main func
     fetch(url)
             .then(data=>{return data.json()})
-            .then(res=>{prettyUpPage(res)})
+            .then(res=>{prettyUpPage(res)});
 }
 
 /**
@@ -108,24 +90,31 @@ function weatherRequest() {
  * @return {[type]} [description]
  */
 function weatherIcons(wind, temp) {
+    wind = 15;
+    temp = 34;
+    console.log(temp, wind);
     var weather = [false, false, false];
-    switch(temp) {
+    switch(true) {
         // Cold icon
-        case (temp <= 34):
+        case temp <= 34:
+            console.log("Cold");
             weather[0] = true;
             break;
         // Hot icon
-        case (temp >= 83):
+        case temp >= 83:
+            console.log("Hot");
             weather[1] = true;
             break;
         default:
-            console.log("Something went wrong checking temp icon");
+            console.log("Temp outside of range");
             break;
     }
     // Wind icon
     if (wind > 15) {
+        console.log("Windy");
         weather[2] = true;
     }
+    console.log(weather);
     return weather;
 }
 
@@ -139,10 +128,8 @@ function prettyUpPage(weatherReq) {
     var temp = weather.temperature;
 
     temp = convertTemp(temp);
-    icons = weatherIcons(wind, temp);
     displayWeather(wind, temp);
     console.log(wind, temp);
-
 }
 
 /**
@@ -150,14 +137,38 @@ function prettyUpPage(weatherReq) {
  * @return {[type]} [description]
  */
 function displayWeather(wind, temp) {
-    var icons = weatherIcons(wind, temp)
-    var node = document.createElement("h3");
-    var cityNode = document.createTextNode("Current weather in " + cityName);
+    var node;
+    var textNode;
+    var body  = document.getElementById("main")
+    var icons = weatherIcons(wind, temp);
+    node     = document.createElement("h3");
+    textNode = document.createTextNode("Current weather in " + cityName);
+    // temp +=
 
-    document.getElementById("main").appendChild
-    node.appendChild(cityNode);
-    document.getElementById("main").appendChild(node).setAttribute();
+    // body.appendChild;
+    node.appendChild(textNode);
+    body.appendChild(node).setAttribute('id', 'cityName');
 
+    // var weaNode = document.createElement("i");
+
+    node     = document.createElement("h5");
+    textNode = document.createTextNode(temp + "\t" + wind);
+    if (icons[0]) {
+        textNode.setAttribute('class', 'wi wi-snowflake-cold')
+    }
+    if (icons[1]) {
+        textNode.setAttribute('class', 'wi wi-hot')
+    }
+    if (icons[2]) {
+        textNode.setAttribute('class', 'wi wi-hot')
+    }
+
+    // node     = document.createElement("h5");
+
+    textNode = document.createTextNode(temp + "\t" + wind);
+    // textNode.appendChild(weaNode);
+    node.appendChild(textNode);
+    document.getElementById("cityName").appendChild(node).setAttribute('id', 'weather');
 }
 
 /**
@@ -165,7 +176,7 @@ function displayWeather(wind, temp) {
  * @return {[type]} [description]
  */
 function convertTemp(c) {
-    var f = (c * 1.8) + 32
+    var f = (c * 1.8) + 32;
     console.log(c, f);
     return f;
 }
