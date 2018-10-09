@@ -3,14 +3,24 @@
     <head>
         <meta charset="utf-8">
         <script src="project2.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <link rel="stylesheet" href="css/weather-icons-wind.css" />
         <link rel="stylesheet" href="css/weather-icons.css" />
         <title>Aaron's Ajax Project 2</title>
+        <style>
+            h5 {
+                width: 50%;
+            }
+        </style>
+        <script>
+            // $("i").insertAfter("h5");
+        </script>
     </head>
     <body id="main">
         <input type="text" id="zip" value="" placeholder="Enter ZIP" required />
         <button type="submit" id="btnSubmit" value="Get Weather"  onclick="weather()">Get Weather</button>
         <div id="output" />
         <!-- <i class="wi wi-night-sleet"></i> -->
+        <!-- <h5 class="wi wi-night-sleet"></h5> -->
     </body>
 </html>
